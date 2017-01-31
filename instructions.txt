@@ -1,0 +1,121 @@
+ ██████╗ ██████╗ ██╗██████╗ 
+██╔════╝ ██╔══██╗██║██╔══██╗
+██║  ███╗██████╔╝██║██║  ██║
+██║   ██║██╔══██╗██║██║  ██║
+╚██████╔╝██║  ██║██║██████╔╝
+ ╚═════╝ ╚═╝  ╚═╝╚═╝╚═════╝ 
+-----1
+0
+import Grid
+<script type="text/javascript" src="/libs/sandcastls/geometry/Grid.js"></script>
+now there's the classes Grid and GridExtension[1-10]
+meaning that in the global scope there are availables classes: Grid and GridExtensionX (where X may be replaced by values from 1 to 10).
+
+1
+in order to automatically get instances of those classes
+import
+grid.utils
+<script type="text/javascript" src="/libs/sandcastls/geometry/grid.utils.js"></script>
+you can now use grid_utils.get_extensions, but before that,
+
+2
+var config={
+	radius:50,
+	dimension:500
+}
+
+3
+now
+var grids = grid_utils.get_extensions(config);
+var grids2 = grid_utils.get_extensions(config);
+
+
+4
+create a canvas
+var canvas = document.createElement('canvas');
+document.body.appendChild(canvas);
+canvas.style.border='1px solid red';
+canvas.style.background='none';
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+var canvasCtx = canvas.getContext('2d');
+
+5
+actually create all grid points
+var current_grid = grids[0];
+var grid_data = Grid.grid_data_from_tile(innerWidth*0.5,innerHeight*0.5,current_grid)
+
+6
+draw
+canvasCtx.strokeStyle = 'white';
+Grid.draw_grid(canvasCtx,grid_data);
+
+ █████╗ ██████╗ ██████╗      ██████╗ ██████╗ ██╗      ██████╗ ██████╗ ███████╗
+██╔══██╗██╔══██╗██╔══██╗    ██╔════╝██╔═══██╗██║     ██╔═══██╗██╔══██╗██╔════╝
+███████║██║  ██║██║  ██║    ██║     ██║   ██║██║     ██║   ██║██████╔╝███████╗
+██╔══██║██║  ██║██║  ██║    ██║     ██║   ██║██║     ██║   ██║██╔══██╗╚════██║
+██║  ██║██████╔╝██████╔╝    ╚██████╗╚██████╔╝███████╗╚██████╔╝██║  ██║███████║
+╚═╝  ╚═╝╚═════╝ ╚═════╝      ╚═════╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+1
+in order to add colors
+import
+<script type="text/javascript" src="/components/chroma-js/chroma.js"></script>
+and
+
+
+2
+<script type="text/javascript" src="/voronoi-rhill/GridDrawing.js"></script>
+now call
+colors_controller.init(canvasCtx)
+set_palette(get_random_palette());
+from GridDrawing you have
+draw_with_colors1-4
+██╗   ██╗███╗   ██╗██╗ ██╗ ██████╗ ██╗   ██╗███████╗██╗ ███████╗██╗ ██████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
+██║   ██║████╗  ██║██║██╔╝██╔═══██╗██║   ██║██╔════╝╚██╗██╔════╝██║██╔════╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
+██║   ██║██╔██╗ ██║██║██║ ██║   ██║██║   ██║█████╗   ██║█████╗  ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║
+██║   ██║██║╚██╗██║██║██║ ██║▄▄ ██║██║   ██║██╔══╝   ██║██╔══╝  ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║
+╚██████╔╝██║ ╚████║██║╚██╗╚██████╔╝╚██████╔╝███████╗██╔╝██║     ██║╚██████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
+ ╚═════╝ ╚═╝  ╚═══╝╚═╝ ╚═╝ ╚══▀▀═╝  ╚═════╝ ╚══════╝╚═╝ ╚═╝     ╚═╝ ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+                                                                                                                  
+
+██╗   ██╗ ██████╗ ██████╗  ██████╗ ███╗   ██╗ ██████╗ ██╗
+██║   ██║██╔═══██╗██╔══██╗██╔═══██╗████╗  ██║██╔═══██╗██║
+██║   ██║██║   ██║██████╔╝██║   ██║██╔██╗ ██║██║   ██║██║
+╚██╗ ██╔╝██║   ██║██╔══██╗██║   ██║██║╚██╗██║██║   ██║██║
+ ╚████╔╝ ╚██████╔╝██║  ██║╚██████╔╝██║ ╚████║╚██████╔╝██║
+  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝
+1
+import
+<script type="text/javascript" src="/libs/rhill-voronoi-core.js"></script>
+███████╗ ██████╗ ███╗   ██╗ ██████╗ ███████╗        ██╗███████╗
+██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔════╝        ██║██╔════╝
+███████╗██║   ██║██╔██╗ ██║██║  ███╗███████╗        ██║███████╗
+╚════██║██║   ██║██║╚██╗██║██║   ██║╚════██║   ██   ██║╚════██║
+███████║╚██████╔╝██║ ╚████║╚██████╔╝███████║██╗╚█████╔╝███████║
+╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚═╝ ╚════╝ ╚══════╝
+0
+<script type="text/javascript" src="/components/jquery/dist/jquery.js"></script>
+1
+<script type="text/javascript" src="/components/meyda/dist/web/meyda.js"></script>
+2
+autoexecuting function that takes as argument 'gui' global variable:
+3
+<script type="text/javascript" src="/voronoi/songs.js"></script>
+4
+$(document).on('songs_meyda_threshold',callback)
+5
+function callback(ev,argument) {
+	if(!argument)return
+	if(argument.specific[0]>1){
+
+	}
+}
+6: styles
+.bar_container{
+	position: absolute;
+	top:0px;
+	left:0px;
+	border: 1px solid red;
+	z-index:1;
+}
+\
