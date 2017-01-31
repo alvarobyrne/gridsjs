@@ -1,0 +1,19 @@
+{
+  "name": "gridsjs",
+  "version": "1.0.0",
+  "description": "Some polygonal grids badly architected class for polygonal grids, archimedean and not.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvarobyrne/gridsjs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alvarobyrne/gridsjs/issues"
+  },
+  "homepage": "https://github.com/alvarobyrne/gridsjs#readme"
+}
