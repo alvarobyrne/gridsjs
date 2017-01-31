@@ -1,2 +1,3 @@
 *.sublie-project
 *.sublie-workspace
+node_modules

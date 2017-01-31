@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/alvarobyrne/gridsjs/issues"
   },
-  "homepage": "https://github.com/alvarobyrne/gridsjs#readme"
+  "homepage": "https://github.com/alvarobyrne/gridsjs#readme",
+  "devDependencies": {
+    "grunt-contrib-watch": "^1.0.0"
+  }
 }
