@@ -17,6 +17,7 @@ watcher.on('create', function(name) {
  
 watcher.on('change', function(name) {
     console.log('file ' + name + ' changed');
+    new_win.close();
     location.reload();
 });
  
