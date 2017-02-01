@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "chroma-js": "^1.1.1"
+    "chroma-js": "^1.1.1",
+    "dat.gui": "dat-gui#^0.6.2"
   }
 }
