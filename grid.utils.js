@@ -499,6 +499,12 @@ grid_utils.set_extensions=function  (config,type) {
 }
 /**
  * [get_extensions description]
+ * While an extension named GridExtension1
+ * ,GridExtension2
+ * ,GridExtension3
+ * ...
+ * exists, create and instance of it and addit to 
+ * function output
  * @param  {[type]} config [description]
  * @param  {[type]} type   [description]
  * @return {[type]}        [description]
@@ -508,7 +514,7 @@ grid_utils.get_extensions=function  (config,type) {
 	var grids=[];
 	grid_utils.config = config;
 	var count_extension=1
-	// grid_utils.grids=[]
+	// grid_utils.grids=[];
 	while(window[type+count_extension]){
 		// console.log("count_extension : ",count_extension);
 		var GridExt = window[type+count_extension]

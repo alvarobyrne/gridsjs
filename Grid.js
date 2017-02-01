@@ -1,4 +1,14 @@
 Grid.count = 0;
+/**
+ * Main class, parent class.
+ * This is the meain or parent class for all grid types.
+ * prototypal inheritance.
+ * update_tile method should be overwritten/overriden.
+ * each extended class should hav an update_grid_size methos
+ * @param {[type]} sides      [description]
+ * @param {[type]} index_main [description]
+ * @param {[type]} config     [description]
+ */
 function Grid (sides,index_main,config) {
 	defaults={};
 	defaults.radius =20;//default radius of main polygon
@@ -116,12 +126,14 @@ Grid.prototype.update_tile_distances = function(first_argument) {
 	}
 }
 Grid.prototype.update_tile = function(first_argument) {
+
 };
 Grid.prototype.draw = function(first_argument) {
+
 };
 Grid.prototype.name = function(first_argument) {
 
-	return Object.keys(this.sides).join()||'ajhkajd';
+	return Object.keys(this.sides).join()||'ajhkajd';//lousey default
 }
 ///////////////////////////////////static functions///////////////////////////////
 ///////////////////////////////////static functions///////////////////////////////
@@ -221,6 +233,17 @@ Grid.grid_data = function (cx,cy,grid) {
 	return grid_polygons;
 }
 /*Grid.grid_data2*/
+/**
+ * Static function which returns a whole GRID from a TILE
+ * lets see:
+ * The tile that is within the grid argument
+ * 
+ * @param  {[type]} cx      x coordinate of tile center
+ * @param  {[type]} cy      y coordinate of tile center
+ * @param  {[type]} grid    grid instance, an instance from some Grid son, or exetension.
+ * @param  {[type]} factors optional
+ * @return {[type]}         [description]
+ */
 Grid.grid_data_from_tile = function (cx,cy,grid,factors) {
 	var cols = grid.cols;
 	var half_c = cols*0.5|0;
@@ -515,6 +538,11 @@ function Tile (polygons) {
 ///////////////////////////extensions/////////////////////////////////////////
 ////////////////////////////////1////5/6/10///////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+/**
+ * First Grid son class, extension class
+ * prototypal inheritance: This one is not archimedean: it has an irregular hexagon.
+ * @param {[type]} config_grid [description]
+ */
 function GridExtension1 (config_grid) {
 	var index_main = 10;
 	var sides = {5:5,6:6,10:index_main};
@@ -531,9 +559,12 @@ function GridExtension1 (config_grid) {
 	this.rows_complete = 1;
 	this.cols_complete = 1;
 	this.cols_factor = +1;
-	Grid.call(this,sides,index_main,config_grid);
+	Grid.call(this,sides,index_main,config_grid);// prototypal inheritance
 	// this.update_tile();
 }
+/*
+prototypal inheritance;
+ */
 GridExtension1.prototype = Object.create(Grid.prototype);
 GridExtension1.prototype.update_tile = function(first_argument) {
 	// Grid.prototype.update_tile.call(this,first_argument);
@@ -629,6 +660,11 @@ GridExtension1.prototype.update_grid_size = function  (argument) {
 	*/
 }
 ////////////////////////////////2////4/6/12///////////////////////////////////
+/**
+ * Second grid extension
+ * this one is archimedean
+ * @param {[type]} config_grid [description]
+ */
 function GridExtension2 (config_grid) {
 	this.long_name='DodecagonHexagonSquare'
 	var index_main = 12;
@@ -639,9 +675,11 @@ function GridExtension2 (config_grid) {
 	this.cols_factor = 1;
 	config_grid.min_index=0;
 	config_grid.max_index=5;
+	// prototypal inheritance;
 	Grid.call(this,sides,index_main,config_grid);
 	// this.update_tile();
 }
+// prototypal inheritance;
 GridExtension2.prototype = Object.create(Grid.prototype);
 GridExtension2.prototype.update_tile = function(first_argument) {
 	var tile=[]
@@ -681,6 +719,10 @@ GridExtension2.prototype.update_grid_size = function  (argument) {
 	*/
 }
 ////////////////////////////////3////3/4/6/4///////////////////////////////////
+/**
+ * Third xtension
+ * @param {[type]} config_grid [description]
+ */
 function GridExtension3 (config_grid) {
 	this.long_name='HexagonSquareTriangleSquare'
 	var index_main = 6;
