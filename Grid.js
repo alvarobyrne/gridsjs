@@ -131,6 +131,11 @@ Grid.prototype.update_tile = function(first_argument) {
 Grid.prototype.draw = function(first_argument) {
 
 };
+/**
+ * Gets name form sides: its not unique. More on this later. Must be improved: evidently doesn't have the same meaning as in 3.12.12;
+ * @param  {[type]} first_argument [description]
+ * @return {[type]}                [description]
+ */
 Grid.prototype.name = function(first_argument) {
 
 	return Object.keys(this.sides).join()||'ajhkajd';//lousey default
@@ -1071,6 +1076,10 @@ GridExtension8.prototype.update_grid_size = function  (argument) {
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////9////3/4/i//////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
+/**
+ * Not in wikipedia.
+ * @param {[type]} config_grid [description]
+ */
 function GridExtension9 (config_grid) {
 	var index_main = 6;
 	var sides={3:3,6:index_main};

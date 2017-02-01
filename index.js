@@ -13,7 +13,7 @@ canvas.width=innerWidth;
 canvas.height=innerHeight;
 var canvasCtx = canvas.getContext('2d');
 ///////////////////
-var current_grid = grids[4];
+var current_grid = grids[8];
 console.log("current_grid : ",current_grid);
 //The class GridExtension0 has information about it's polygons,
 //the polygons that make ONE tile
@@ -21,3 +21,14 @@ var grid_data = Grid.grid_data_from_tile(innerWidth*0.5,innerHeight*0.5,current_
 // console.log("grid_data : ",grid_data);
 canvasCtx.strokeStyle = 'white';
 Grid.draw_grid(canvasCtx,grid_data);
+var gui = new dat.GUI();
+var polygon_count=0
+var config = {
+	palettes:chroma.brewer,
+	gui,
+	grid_data,
+	canvasCtx,
+	polygon_count
+}
+console.log("config : ",config);
+var grid_drawing = new GridDrawing(config);
