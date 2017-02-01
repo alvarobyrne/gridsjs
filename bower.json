@@ -1,0 +1,21 @@
+{
+  "name": "gridsjs",
+  "description": "Some polygonal grids badly architected class for polygonal grids, archimedean and not.",
+  "main": "index.js",
+  "authors": [
+    "alvar <alvarobyrne@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/alvarobyrne/gridsjs",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chroma-js": "^1.1.1"
+  }
+}

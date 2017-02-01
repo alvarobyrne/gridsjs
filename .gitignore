@@ -1,3 +1,4 @@
 *.sublie-project
 *.sublie-workspace
 node_modules
+bower_components
