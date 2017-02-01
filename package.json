@@ -2,7 +2,11 @@
   "name": "gridsjs",
   "version": "1.0.0",
   "description": "Some polygonal grids badly architected class for polygonal grids, archimedean and not.",
-  "main": "index.js",
+  "main": "app.html",
+  "window":{
+    "toolbar":false,
+    "frame":false
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,5 +22,8 @@
   "homepage": "https://github.com/alvarobyrne/gridsjs#readme",
   "devDependencies": {
     "grunt-contrib-watch": "^1.0.0"
+  },
+  "dependencies": {
+    "watch-fs": "0.0.7"
   }
 }
