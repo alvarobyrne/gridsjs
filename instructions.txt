@@ -7,7 +7,7 @@
 -----1
 0
 import Grid
-<script type="text/javascript" src="/libs/sandcastls/geometry/Grid.js"></script>
+<script type="text/javascript" src="/Grid.js"></script>
 now there's the classes Grid and GridExtension[1-10]
 meaning that in the global scope there are availables classes: Grid and GridExtensionX (where X may be replaced by values from 1 to 10).
 
@@ -15,7 +15,7 @@ meaning that in the global scope there are availables classes: Grid and GridExte
 in order to automatically get instances of those classes
 import
 grid.utils
-<script type="text/javascript" src="/libs/sandcastls/geometry/grid.utils.js"></script>
+<script type="text/javascript" src="/grid.utils.js"></script>
 you can now use grid_utils.get_extensions, but before that,
 
 2
@@ -27,7 +27,6 @@ var config={
 3
 now
 var grids = grid_utils.get_extensions(config);
-var grids2 = grid_utils.get_extensions(config);
 
 
 4
