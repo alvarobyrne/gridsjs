@@ -2,9 +2,8 @@
   "name": "gridsjs",
   "version": "1.0.0",
   "description": "Some polygonal grids badly architected class for polygonal grids, archimedean and not.",
-  "main": "projection.html",
+  "main": "app.html",
   "window":{
-    "toolbar":false,
     "frame":false
   },
   "scripts": {

@@ -1,4 +1,3 @@
-const dev_tools_win = guinw.Window.get().showDevTools();
 const screens={
 	hp:{
 		width:1370,
@@ -40,26 +39,27 @@ const layout={
 	}
 }
 const current_layout = layout.developer;
-w.x = current_layout.main.x;
-w.y=current_layout.main.y;
-w.width=current_layout.main.width;
-w.height=current_layout.main.height;
-dev_tools_win.x=current_layout.devtools.x;
-dev_tools_win.y=current_layout.devtools.y;
-dev_tools_win.width=current_layout.devtools.width;
-dev_tools_win.height=current_layout.devtools.height;
-console.log("dev_tools_win : ",dev_tools_win);
-var new_win = guinw.Window.open('canvas.html',
+win.x = current_layout.main.x;
+win.y=current_layout.main.y;
+win.width=current_layout.main.width;
+win.height=current_layout.main.height;
+// dev_tools_win.x=current_layout.devtools.x;
+// dev_tools_win.y=current_layout.devtools.y;
+// dev_tools_win.width=current_layout.devtools.width;
+// dev_tools_win.height=current_layout.devtools.height;
+// console.log("dev_tools_win : ",dev_tools_win);
+var new_win;
+nw.Window.open('canvas.html',
 	{
 		x:current_layout.canvas.x,
 		y:current_layout.canvas.y,
-		toolbar:false,
+		// toolbar:false,
 		frame:false,
 		width:current_layout.canvas.width,
 		height:current_layout.canvas.height
-	});
+	},
+	init);
 
-w.on('close',function(){	new_win.close();});
 	
 document.addEventListener('keydown',function (argument) {
 	console.log("argument : ",argument);
