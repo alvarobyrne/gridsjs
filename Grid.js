@@ -1,4 +1,4 @@
-Grid.count = 0;
+Grid.count = 0;//poor architecture//see Grid.tile_loop4
 /**
  * Main class, parent class.
  * This is the meain or parent class for all grid types.
@@ -16,25 +16,34 @@ function Grid (sides,index_main,config) {
 	defaults.dimensiony =550;
 	defaults.min_index=0;
 	defaults.max_index=0;
+	defaults.is_factors=false;
 	if(!config){
 		config=defaults;
+	}else{
+		var key;
+		for( key in defaults ){
+			config[key] = config[key]? config[key] : defaults[key];
+		}
+
 	}
-	this.sides=sides;
+	this.sides=sides;//{4:4,6:6,12:index_main}
 	this.INDEX_MAIN = index_main;
-	this.radius=config.radius || defaults.radius;
-	this.mid = {};
-	this.midangles = {};
-	this.inv_sin = {};
-	this.delta={};
-	this.min_index = config.min_index;
-	this.max_index = config.max_index;
-	this.radii = {};
-	for(var i in this.sides){
+	this.radius     = config.radius || defaults.radius;
+	this.midangles  = {};
+	this.inv_sin    = {};
+	this.delta      = {};
+	this.mid        = {};
+	//shiffman r
+	this.radii      = {};
+	this.min_index  = config.min_index;
+	this.max_index  = config.max_index;
+	for(var i in this.sides){//i->number of sides in polygon
+		//beta
 		this.midangles[i] = Math.PI/i;
 		this.inv_sin[i]   = 1/Math.sin(this.midangles[i]);
 		this.delta[i]     = 2*Math.PI/i;
-		this.mid[i]       = 1/Math.tan(this.delta[i]*0.5);
-		this.radii[i]        = 0;
+		this.mid[i]       = 1/Math.tan(this.midangles[i]);
+		this.radii[i]     = 0;
 	}
 	this.ANGLE_MAIN      = this.delta[this.INDEX_MAIN];
 	this.ANGLE_MAIN_HALF =  this.ANGLE_MAIN*0.5;
@@ -44,7 +53,10 @@ function Grid (sides,index_main,config) {
 	// this.dimensiony=
 	this.SIN_BETA = Math.sin(this.ANGLE_MAIN_HALF)
 	this.COS_BETA = Math.cos(this.ANGLE_MAIN_HALF)
+	// shiffman h
 	this.h={};
+	this.d={};
+	this.r={};
 	this.update_sizes = function  (factors) {
 		// console.log("factors : ",factors);
 		//KEY CONSTRAINT!!!
@@ -56,17 +68,15 @@ function Grid (sides,index_main,config) {
 		//reset each time?
 		var f_length = factors?factors.length:1;
 		for(var i in this.sides){
-			this.h[i]=this.midside*this.mid[i];
-			this.radii[i]=this.midside*this.inv_sin[i];
-			if(factors&&false){
-				this.h[i]*=factors[i%f_length]*2
-				this.radii[i]*=factors[i%f_length]*2
+			this.h[i]     = this.midside*this.mid[i];
+			this.radii[i] = this.midside*this.inv_sin[i];
+			if(factors&&config.is_factors){
+				this.h[i]     *= factors[i%f_length]*2;
+				this.radii[i] *= factors[i%f_length]*2;
 			}
 
 		}
 	}
-	this.d={};
-	this.r={};
 	this.update_grid_cols_rows = function  () {
 		var size_threshold = 29;
 		// var cols_complete = this.radius>size_threshold?3:2;
@@ -83,18 +93,22 @@ function Grid (sides,index_main,config) {
 		this.amount_tiles = this.cols*this.rows;
 	}
 	this.update_grid_size_and_ratio=function (factors) {
-		// body...
-		this.update_grid_size();//specific to each concrete class
+		////////////////////////////
+		////////////////////////////
+		//specific to each concrete class:
+		this.update_grid_size();
+		////////////////////////////
+		////////////////////////////
 		/*
-		this.tile_c.polygons.forEach(function (polygon,i) {
-			var vertices = polygon.points||polygon.vertices;
-			vertices.forEach(function (vertex) {
-				// body...
-			var x = polygon.center.x - vertex.x;
-			var y = polygon.center.y - vertex.y;
+			this.tile_c.polygons.forEach(function (polygon,i) {
+				var vertices = polygon.points||polygon.vertices;
+				vertices.forEach(function (vertex) {
+					// body...
+				var x = polygon.center.x - vertex.x;
+				var y = polygon.center.y - vertex.y;
+				})
+				
 			})
-			
-		})
 		*/
 		this.ratio = this.grid_dimension_2/this.grid_dimension_1;
 	}	
@@ -112,7 +126,12 @@ function Grid (sides,index_main,config) {
 		this.update_grid_cols_rows();
 	}
 	this.update_r_dependency();
-	this.update_tile();//specific to each concrete class
+	////////////////////////////////////
+	////////////////////////////////////
+	//specific to each concrete class
+	this.update_tile();
+	////////////////////////////////////
+	////////////////////////////////////
 	this.tilec.polygons.forEach(function (p) {
 		// console.log("p : ",p);
 		var v = p.vertices||p.points
@@ -140,8 +159,8 @@ Grid.prototype.name = function(first_argument) {
 
 	return Object.keys(this.sides).join()||'ajhkajd';//lousey default
 }
-///////////////////////////////////static functions///////////////////////////////
-///////////////////////////////////static functions///////////////////////////////
+///////////////////////////////////STATIC functions///////////////////////////////
+///////////////////////////////////STATIC functions///////////////////////////////
 /*
 Grid.draw_grid_OLD =function (context,argument) {
 	argument.forEach(function  (tile,i,a) {
@@ -255,35 +274,25 @@ Grid.grid_data_from_tile = function (cx,cy,grid,factors) {
 	var half_r = grid.rows*0.5|0;
 
 	var grid_polygons =[];
-	/*
-	var config = {};
-	config.complete = true//for 1
-	config.min=0;
-	config.max =5;
-	config.radius =grid.radius;
-	*/
 	if(grid.tilec){
 		var tilec = grid.tilec;
 	}
-	var Sbis = grid.grid_dimension_2;
-	var Hbis = grid.grid_dimension_1;
+	var H = grid.grid_dimension_2//y;
+	var W = grid.grid_dimension_1//x;
 
 	var u,v,x,y;
 	var amount_tiles = grid.amount_tiles;
-	// var f_length = factors?factors.length:1;
-	// var f_length = factors.length;
 	var gc = Grid.count;
 	Grid.count = 0;
 	for (var i = 0; i < amount_tiles; i++) {
 		u = i%cols-half_c;
-		v = (i/cols|0)-half_r;
-		if(v%2===0){
+		v = (i/cols|0)-half_r;//row index
+		if(v%2===0){//if row is even add "half" an index
 			u+=grid.cols_factor*0.5;
 		}
-		// console.log("",u,v);
-		x = cx+u*Hbis;
-		y = cy+v*Sbis;
-		var tile = Grid.tile_loop4(x,y,grid.tilec,factors)
+		x = cx+u*W;
+		y = cy+v*H;
+		var tile = Grid.tile_loop4(x,y,grid.tilec,factors);
 		
 		grid_polygons.push(tile);
 	};
@@ -432,7 +441,7 @@ Grid.tile_loop5=function  (x,y,D,min,max) {
 	for (var i = min; i < max; i++) {
 		polygon=new Polygon;
 		var idx = i%2;
-		var config = D[i%2];
+		var config = D[i%2];//alternate squares and hexagons
 		var dist = config.D
 		var rn = config.r
 		var s = config.s;
@@ -508,7 +517,7 @@ Grid.tile_loop4 = function  (x,y,tile_c,factors) {
 		// console.log("f : ",f);
 		// f = isNaN(f)?1:f;
 		polygon_grid.voronoiId = Grid.count;
-		polygon_grid.vertices = Grid.translate_polygon(x,y,polygon.vertices||polygon.points,1)
+		polygon_grid.vertices = Grid.translate_polygon(x,y,polygon.vertices||polygon.points,1);
 		polygon_grid.center={x:center.x+x,y:center.y+y};
 		// Grid.scale_polygon(polygon_grid,f)
 		polygon_grid.r = f;
@@ -527,7 +536,7 @@ Grid.tile_translated =function (x,y,tile) {
 	// console.log("D : ",D);
 	return Grid.tile_loop2(x,y,tile);
 }
-/////////////////////////////////////////////////////////////////////////////
+/////////////////////////END OF STATIC FUNCTIONS ////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 function Polygon () {
 	this.vertices = [];
@@ -540,7 +549,10 @@ function Polygon () {
 function Tile (polygons) {
 	this.polygons = polygons;
 }
-///////////////////////////extensions/////////////////////////////////////////
+////////////////////////////////////////
+///////////////////////////EXTENSIONS/////////////////////////////////////////
+////////////////////////////////////////
+////////////////////////////////////////
 ////////////////////////////////1////5/6/10///////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 /**
@@ -689,8 +701,10 @@ GridExtension2.prototype = Object.create(Grid.prototype);
 GridExtension2.prototype.update_tile = function(first_argument) {
 	var tile=[]
 	var tiles=[]
-	var min = this.min_index;
-	var max = this.max_index;
+	// var min = this.min_index;
+	var min = 0;
+	// var max = this.max_index;
+	var max = 5;
 
 	var cx=0,cy=0;
 	var main_polygon = Grid.polygon_data(cx,cy,this.INDEX_MAIN,this.radii[this.INDEX_MAIN],0);
@@ -707,6 +721,9 @@ GridExtension2.prototype.update_tile = function(first_argument) {
 	var squares_n_hexagonsp = Grid.tile_loop5(cx, cy, D, min, max)
 	tile = tile.concat(squares_n_hexagons,[main_polygon]);
 	tiles = tiles.concat([main_polygonp],squares_n_hexagonsp);
+	//What is difference between these:??????????????
+	//I can't rememeber
+	//for now pay attention to tilec
 	this.tile = tile;
 	this.tilec = new Tile(tiles);
 };
@@ -746,7 +763,6 @@ GridExtension3.prototype.update_tile = function(first_argument) {
 	var tile=[]
 	var tiles=[]
 	var min = this.min_index;
-	// console.log("min : ",min);
 	var max = this.max_index;
 	// console.log("max : ",max);
 
@@ -755,6 +771,25 @@ GridExtension3.prototype.update_tile = function(first_argument) {
 	this.init_angle = this.midangles[6];
 	this.init_angle2 = this.ANGLE_MAIN;
 	var main_polygonp = Grid.polygon_data2(cx,cy,this.INDEX_MAIN,this.radii[this.INDEX_MAIN],this.init_angle);
+	var d3 = this.radii[3]+this.radius;
+	D3A = {
+		x:d3*Math.cos(this.midangles[3]),
+		y:d3*Math.sin(this.midangles[3])
+	}
+	var T1 = Grid.polygon_data2(
+		cx+D3A.x,
+		cy+D3A.y,
+		this.sides[3],
+		this.radii[3],
+		0
+		)
+	var T2 = Grid.polygon_data2(
+		cx+D3A.x,
+		cy+D3A.y,
+		this.sides[3],
+		this.radii[3],
+		this.ANGLE_MAIN
+		)
 	// var main_polygon_obj = new Polygon();
 	// main_polygon_obj.center = {x:cx,y:cy};
 	// main_polygon_obj.vertices = main_polygon;
