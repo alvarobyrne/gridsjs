@@ -20,31 +20,31 @@ class DrawGrid {
         // console.log("grid_data : ",grid_data);
         switch(grid_data.strategy_id) {
             case "A":
-                this.strategy = new ConcreteStrategyA(grid_data)
+                this.strategy = new ConcreteStrategyA(grid_data);
                 break
             case "B":
-                this.strategy = new ConcreteStrategyB(grid_data)
+                this.strategy = new ConcreteStrategyB(grid_data);
                 break
             case "C":
-                this.strategy = new ConcreteStrategyC(grid_data)
+                this.strategy = new ConcreteStrategyC(grid_data);
                 break
             case "D":
-                this.strategy = new ConcreteStrategyD(grid_data)
+                this.strategy = new ConcreteStrategyD(grid_data);
                 break
             case "E":
-                this.strategy = new ConcreteStrategyE(grid_data)
+                this.strategy = new ConcreteStrategyE(grid_data);
                 break
             case "F":
-                this.strategy = new ConcreteStrategyF(grid_data)
+                this.strategy = new ConcreteStrategyF(grid_data);
                 break
             case "G":
-                this.strategy = new ConcreteStrategyG(grid_data)
+                this.strategy = new ConcreteStrategyG(grid_data);
                 break
             case "H":
-                this.strategy = new ConcreteStrategyH(grid_data)
+                this.strategy = new ConcreteStrategyH(grid_data);
                 break
             default:
-                this.strategy = new ConcreteStrategyA(grid_data)
+                this.strategy = new ConcreteStrategyA(grid_data);
         }
     }
     ContextInterface (){
@@ -91,7 +91,7 @@ class ConcreteStrategyA extends ColoringStrategy{
     selecting_color_function(polygon_sides_amount,i){
         var idx = (this.color_offset+i)%this.palette.length;
         // console.log("idx : ",idx);
-        this.canvasCtx.fillStyle = this.palette[idx]
+        this.canvasCtx.fillStyle = this.palette[idx];
     }
 }
 class ConcreteStrategyB extends ColoringStrategy{
@@ -226,12 +226,12 @@ class GridDrawing{
         this.context=null;
         if(!config.gui)return;
         this.gui = config.gui.addFolder('GridDrawing');
-        // this.gui.open();
+        this.gui.open();
         // this.gui.add(this,'use_strategy_A').name('current palette + offset + type');
         // this.gui.add(this,'use_strategy_B').name('random current palette + type');
         // this.gui.add(this,'use_strategy_C').name('random palette');
         // this.gui.add(this,'use_strategy_D').name('current palette + random');
-        var strategies = {
+        var strategies = this.strategies = {
             A:'current palette + offset + type',
             B:'current palette + type + random color',
             C:'random palette + type',
@@ -240,7 +240,8 @@ class GridDrawing{
             F:'Description',
             G:'perlin 2d',
             H:'perlin 3d'
-        }
+        }       
+            console.log("strategies : ",strategies);
         var key;
         for( key in strategies ){
             var object = strategies[key];
@@ -305,6 +306,17 @@ class GridDrawing{
 
         if(this.draw_config)this.draw_config.palette=this.palette;
     }
+    do_randomize_strategy(){
+        var strategies = this.strategies;
+        console.log("this : ",this);
+        return;
+        // console.log("strategies : ",strategies);
+        var keys = Object.keys(strategies);
+        var random_strategy = keys[keys.length*Math.random()|0]
+        // console.log("random_strategy : ",random_strategy);
+        this.use_strategy(random_strategy);
+    }
+
     use_strategy_A(){
         this.use_strategy("A");
     }
